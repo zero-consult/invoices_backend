@@ -59,7 +59,7 @@ pipeline {
                 sh "git config --global user.name 'Jenkins'"
                 sh "git tag -a ${env.MAJOR_VERSION}.${env.MINOR_VERSION}.${env.PATCH_VERSION} -m '${env.MAJOR_VERSION}.${env.MINOR_VERSION}.${env.PATCH_VERSION}'"
                 sh "GIT_SSH='ssh -i ~/.ssh/id_rsa'"
-                sh "git push git@github.com:zero-consult/timesheet_backend.git ${env.MAJOR_VERSION}.${env.MINOR_VERSION}.${env.PATCH_VERSION}"
+                sh "git push git@github.com:zero-consult/invoices_backend.git ${env.MAJOR_VERSION}.${env.MINOR_VERSION}.${env.PATCH_VERSION}"
 			}
 		}
 		stage('Build') {
@@ -82,10 +82,10 @@ pipeline {
 				    echo "pushing image"
 				    docker.withRegistry('http://nexus:8081', 'Nexus') {
 				        if(env.BRANCH_NAME != "production") {
-				            app = docker.build("docker-releases/timesheet_backend_${env.BRANCH_NAME}:$TAG", "--build-arg JAR_FILE=./build/libs/timesheet_backend-${TAG}.jar .")
+				            app = docker.build("docker-releases/invoices_backend_${env.BRANCH_NAME}:$TAG", "--build-arg JAR_FILE=./build/libs/invoices_backend-${TAG}.jar .")
                             app.push("$TAG")
 				        } else {
-                            app = docker.build("docker-releases/timesheet_backend:$TAG", "--build-arg JAR_FILE=./build/libs/timesheet_backend-${TAG}.jar .")
+                            app = docker.build("docker-releases/invoices_backend:$TAG", "--build-arg JAR_FILE=./build/libs/invoices_backend-${TAG}.jar .")
                             app.push("$TAG")
                         }
                     }
