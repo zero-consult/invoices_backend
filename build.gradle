@@ -1,0 +1,104 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.1.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id "org.openapi.generator" version '7.23.0'
+}
+
+group = 'org.zero_consult'
+version = '0.0.1-SNAPSHOT'
+description = 'invoices_backend'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'io.swagger.core.v3:swagger-core:2.2.52'
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.52'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.10'
+    implementation 'org.postgresql:postgresql'
+    implementation("com.google.code.gson:gson:2.14.0")
+    implementation("io.gsonfire:gson-fire:1.9.0")
+    implementation("com.squareup.okhttp3:okhttp:5.4.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.4.0")
+    implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
+    implementation("net.sf.jasperreports:jasperreports:7.0.7")
+    implementation("net.sf.jasperreports:jasperreports-pdf:7.0.7")
+    implementation("com.github.librepdf:openpdf:1.3.43")
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'com.h2database:h2:2.4.240'
+    testImplementation 'commons-io:commons-io:2.22.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+def buildDir = getLayout().getBuildDirectory().getAsFile().get();
+
+def generatePeopleClientApi = tasks.register('generatePeopleClientApi', GenerateTask) {
+    generatorName.set("java")
+    inputSpec.set(new File("$rootDir/idl/people-api.yaml"))
+    outputDir.set(new File("$buildDir/generated"))
+    apiPackage.set("org.zero_consult.idl.client.api")
+    modelPackage.set("org.zero_consult.idl.client.model")
+    configOptions.set([
+            "useJakartaEe": "true"
+    ])
+}
+
+def generateTimesheetClientApi = tasks.register('generateTimesheetClientApi', GenerateTask) {
+    generatorName.set("java")
+    inputSpec.set(new File("$rootDir/idl/timesheet-api.yaml"))
+    outputDir.set(new File("$buildDir/generated"))
+    apiPackage.set("org.zero_consult.idl.client.api")
+    modelPackage.set("org.zero_consult.idl.client.model")
+    configOptions.set([
+            "useJakartaEe": "true"
+    ])
+}
+
+def generateInvoicesApi = tasks.register('generateInvoicesApi', GenerateTask) {
+    generatorName.set("spring")
+    inputSpec.set(new File("$rootDir/idl/invoices-api.yaml"))
+    outputDir.set(new File("$buildDir/generated"))
+    apiPackage.set("org.zero_consult.idl.api")
+    modelPackage.set("org.zero_consult.idl.model")
+    schemaMappings.set([
+            "stream": "org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody"
+    ])
+    typeMappings.set([
+            "string+binary": "stream"
+    ])
+    configOptions.set([
+            dateLibrary       : "java8",
+            requestMappingMode: "none",
+            useOptional : "true",
+    ])
+}
+
+sourceSets {
+    main {
+        java.srcDirs += "$buildDir/generated/src/main/java"
+        java.exclude 'org/openapitools/**'
+        java.exclude 'org/zero_consult/idl/api/**Controller**'
+    }
+}
+
+
+compileJava.dependsOn generateTimesheetClientApi
+compileJava.dependsOn generatePeopleClientApi
+compileJava.dependsOn generateInvoicesApi

@@ -1,0 +1,168 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.6-5d2a603fdc6b3db8f842a83383e594f41891534d  -->
+<jasperReport name="payslip" language="java" columnCount="1" pageWidth="595" pageHeight="842" orientation="Landscape" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aadce841-d0e6-4506-8884-6b61e16680aa">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="EMPLOYEE_NAME" class="java.lang.String"/>
+	<parameter name="EMPLOYEE_FUNCTION" class="java.lang.String"/>
+	<parameter name="LINES" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PERIOD" class="java.lang.String"/>
+	<parameter name="CREATION_DAY" class="java.lang.String"/>
+	<parameter name="CURRENCY" class="java.lang.String"/>
+	<parameter name="PAYSLIP_ALLOWANCE_SUB" class="net.sf.jasperreports.engine.JasperReport"/>
+	<query language="sql"><![CDATA[]]></query>
+	<background height="842" splitType="Stretch">
+		<element kind="rectangle" uuid="f8580fc3-a80e-4591-97e3-4dbad54df264" stretchType="ContainerHeight" mode="Opaque" x="0" y="0" width="595" height="842" backcolor="#1E2D42" radius="0">
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<pen lineWidth="0.0"/>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</background>
+	<title height="15" splitType="Stretch">
+		<element kind="rectangle" uuid="d7706527-66ca-43b8-9b3e-3d69815a2558" stretchType="ContainerHeight" mode="Opaque" x="295" y="6" width="294" height="4" backcolor="#2A3D56" radius="5">
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<pen lineWidth="1.0" lineColor="#F05A28"/>
+		</element>
+		<element kind="textField" uuid="9d5e2c4f-e000-48e4-a824-5978c4b084f8" stretchType="NoStretch" mode="Transparent" x="295" y="6" width="299" height="1" forecolor="#F05A28" backcolor="rgba(30, 45, 66, 0.0)" textAdjust="StretchHeight">
+			<paragraph lineSpacing="Single" leftIndent="0" rightIndent="0" spacingBefore="0" spacingAfter="0"/>
+			<expression><![CDATA["PAYSLIP"]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<box topPadding="5" leftPadding="5" bottomPadding="0" rightPadding="0">
+				<bottomPen lineWidth="0.0"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="39181780-8580-4dd4-8117-b9021c067305" positionType="Float" stretchType="NoStretch" x="295" y="7" width="150" height="1" forecolor="#FFFFFF" backcolor="#1E2D42" textAdjust="StretchHeight">
+			<expression><![CDATA["Period:"]]></expression>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<box topPadding="5" leftPadding="10" bottomPadding="0" rightPadding="0"/>
+		</element>
+		<element kind="textField" uuid="24daca08-0774-401d-a192-511022ce3aab" positionType="Float" stretchType="NoStretch" x="450" y="7" width="145" height="1" forecolor="#FFFFFF" backcolor="#1E2D42" textAdjust="StretchHeight">
+			<expression><![CDATA[$P{PERIOD}]]></expression>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<box topPadding="5" leftPadding="10" bottomPadding="0" rightPadding="0"/>
+		</element>
+		<element kind="textField" uuid="1d010657-1699-4da4-9526-c551240860e5" positionType="Float" stretchType="NoStretch" x="295" y="8" width="150" height="1" forecolor="#FFFFFF" backcolor="#1E2D42" textAdjust="StretchHeight">
+			<expression><![CDATA["Created on:"]]></expression>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<box topPadding="5" leftPadding="10" bottomPadding="0" rightPadding="0"/>
+		</element>
+		<element kind="textField" uuid="7ab7d47d-d3ce-4c4e-b4a3-416bd6b698f4" positionType="Float" stretchType="NoStretch" x="450" y="8" width="145" height="1" forecolor="#FFFFFF" backcolor="#1E2D42" textAdjust="StretchHeight">
+			<expression><![CDATA[$P{CREATION_DAY}]]></expression>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<box topPadding="5" leftPadding="10" bottomPadding="0" rightPadding="0"/>
+		</element>
+		<element kind="textField" uuid="5345c84a-cfc7-4050-8b8d-b64191c7a2da" positionType="Float" stretchType="NoStretch" x="295" y="9" width="150" height="1" forecolor="#FFFFFF" backcolor="#1E2D42" textAdjust="StretchHeight">
+			<expression><![CDATA["Currency:"]]></expression>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="0"/>
+		</element>
+		<element kind="textField" uuid="61d44244-f37b-40f2-8b5b-f47b86d5a91f" positionType="Float" stretchType="NoStretch" x="450" y="9" width="140" height="1" forecolor="#FFFFFF" backcolor="#1E2D42" textAdjust="StretchHeight">
+			<expression><![CDATA[$P{CURRENCY}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="0"/>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</title>
+	<pageHeader height="1" splitType="Stretch">
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<element kind="rectangle" uuid="229d7a35-1050-4c60-b48f-d01e1b16751b" stretchType="ContainerHeight" mode="Opaque" x="295" y="6" width="294" height="2" backcolor="#2A3D56" radius="5">
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<pen lineWidth="1.0" lineColor="#F05A28"/>
+			</element>
+			<element kind="rectangle" uuid="df51d17d-f55d-4833-81e8-6c6179f5a786" stretchType="ContainerHeight" mode="Opaque" x="5" y="6" width="285" height="2" backcolor="#2A3D56" radius="5">
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<pen lineWidth="1.0" lineColor="#F05A28"/>
+			</element>
+			<element kind="textField" uuid="fcc373f7-476c-4a1d-ac21-a8a02c7155da" stretchType="NoStretch" x="5" y="6" width="285" height="1" forecolor="#FFFFFF" textAdjust="StretchHeight">
+				<expression><![CDATA["ZERO CONSULT"]]></expression>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5"/>
+			</element>
+			<element kind="textField" uuid="9192716d-7d94-4b05-9770-da252455d134" stretchType="NoStretch" x="295" y="6" width="295" height="1" forecolor="#FFFFFF" textAdjust="StretchHeight">
+				<expression><![CDATA[$P{EMPLOYEE_NAME}]]></expression>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="0"/>
+			</element>
+			<element kind="textField" uuid="b58c504d-7404-4781-957a-1f065ae53b5e" positionType="Float" stretchType="NoStretch" x="295" y="7" width="295" height="1" forecolor="#FFFFFF" textAdjust="StretchHeight">
+				<expression><![CDATA[$P{EMPLOYEE_FUNCTION}]]></expression>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5"/>
+			</element>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+		<band height="8">
+			<element kind="rectangle" uuid="11cfb776-c802-4d9a-908d-f77691477bea" stretchType="ContainerHeight" mode="Opaque" x="5" y="5" width="585" height="1" backcolor="#2A3D56" radius="5">
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<pen lineWidth="1.0" lineColor="#F05A28"/>
+			</element>
+			<element kind="subreport" uuid="ad3882ce-07c9-4585-9692-399cafeab10c" x="0" y="5" width="595" height="1">
+				<dataSourceExpression><![CDATA[$P{LINES}]]></dataSourceExpression>
+				<expression><![CDATA[$P{PAYSLIP_ALLOWANCE_SUB} != null ? $P{PAYSLIP_ALLOWANCE_SUB} : "payslip_allowance.jasper"]]></expression>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="1" splitType="Stretch"/>
+	<summary splitType="Stretch"/>
+</jasperReport>
