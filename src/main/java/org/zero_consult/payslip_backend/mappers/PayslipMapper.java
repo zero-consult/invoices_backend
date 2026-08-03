@@ -15,7 +15,7 @@ public class PayslipMapper {
         entity.setEmployeeId(idl.getEmployeeId());
         entity.setGrossSalary(idl.getGrossSalary());
         idl.getId().ifPresent(entity::setId);
-        entity.setMonth(LocalDate.parse(idl.getMonth(), MONTH_FORMAT));
+        entity.setPayslipMonth(LocalDate.parse(idl.getMonth(), MONTH_FORMAT));
         idl.getPayslipFile().ifPresent(entity::setPayslipFile);
         entity.setTaxRate(idl.getTaxRate());
         return entity;
@@ -27,7 +27,7 @@ public class PayslipMapper {
         idl.setEmployeeId(entity.getEmployeeId());
         idl.setGrossSalary(entity.getGrossSalary());
         idl.setId(entity.getId()!=null? Optional.of(entity.getId()) : Optional.empty());
-        idl.setMonth(entity.getMonth().format(MONTH_FORMAT));
+        idl.setMonth(entity.getPayslipMonth().format(MONTH_FORMAT));
         idl.setPayslipFile(entity.getPayslipFile() != null ? Optional.of(entity.getPayslipFile()) : Optional.empty());
         idl.setTaxRate(entity.getTaxRate());
         return idl;

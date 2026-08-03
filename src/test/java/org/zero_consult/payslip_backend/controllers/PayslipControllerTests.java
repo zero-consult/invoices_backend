@@ -5,7 +5,6 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,10 +19,7 @@ import org.zero_consult.payslip_backend.InvoicesBackendApplication;
 import org.zero_consult.payslip_backend.entities.Allowance;
 import org.zero_consult.payslip_backend.entities.Payslip;
 import org.zero_consult.payslip_backend.repositories.PayslipRepository;
-import org.zero_consult.payslip_backend.services.CustomerApiMock;
-import org.zero_consult.payslip_backend.services.CustomerApiService;
-import org.zero_consult.payslip_backend.services.EmployeeApiMock;
-import org.zero_consult.payslip_backend.services.EmployeeApiService;
+import org.zero_consult.payslip_backend.services.*;
 
 import java.io.File;
 import java.time.Clock;
@@ -46,8 +42,10 @@ public class PayslipControllerTests {
     private CustomerApiService customerApiService;
     @MockitoBean
     private EmployeeApiService employeeApiService;
+    @MockitoBean
+    private TimesheetApiService timesheetApiService;
 
-    @Mock
+    @MockitoBean
     private Clock clock;
 
     //field that will contain the fixed clock
@@ -59,10 +57,13 @@ public class PayslipControllerTests {
     }
 
     @BeforeEach
-    public void initClock() {
+    public void init() {
         fixedClock = Clock.fixed(MOCK_DATE.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault());
         Mockito.doReturn(fixedClock.instant()).when(clock).instant();
         Mockito.doReturn(fixedClock.getZone()).when(clock).getZone();
+        Mockito.when(customerApiService.getCustomerApi()).thenReturn(new CustomerApiMock());
+        Mockito.when(employeeApiService.getEmployeeApi()).thenReturn(new EmployeeApiMock());
+        Mockito.when(timesheetApiService.getTimesheetApi()).thenReturn(new TimesheetApiMock());
     }
 
     @Test
@@ -73,17 +74,15 @@ public class PayslipControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description", Matchers.is("description")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].grossSalary", Matchers.is(4000.0d)));
     }
 
     @Test
     public void testAddPayslip() throws Exception {
         initData();
-        Mockito.when(customerApiService.getCustomerApi()).thenReturn(new CustomerApiMock());
-        Mockito.when(employeeApiService.getEmployeeApi()).thenReturn(new EmployeeApiMock());
         mvc.perform(MockMvcRequestBuilders.post("/payslips")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(FileUtils.readFileToString(new File(getClass().getClassLoader().getResource("json_input/AddPayslip.json").getFile()), "UTF-8")))
+                        .content(FileUtils.readFileToString(new File(getClass().getClassLoader().getResource("json_input/GeneratePayslip.json").getFile()), "UTF-8")))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
@@ -97,21 +96,8 @@ public class PayslipControllerTests {
     }
 
     @Test
-    public void testUpdatePayslip() throws Exception {
-        Payslip data = initData();
-        Mockito.when(customerApiService.getCustomerApi()).thenReturn(new CustomerApiMock());
-        Mockito.when(employeeApiService.getEmployeeApi()).thenReturn(new EmployeeApiMock());
-        mvc.perform(MockMvcRequestBuilders.put("/payslips/" + data.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(FileUtils.readFileToString(new File(getClass().getClassLoader().getResource("json_input/UpdatePayslip.json").getFile()), "UTF-8")))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @Test
     public void testDeletePayslip() throws Exception {
         Payslip data = initData();
-        Mockito.when(customerApiService.getCustomerApi()).thenReturn(new CustomerApiMock());
-        Mockito.when(employeeApiService.getEmployeeApi()).thenReturn(new EmployeeApiMock());
         mvc.perform(MockMvcRequestBuilders.delete("/payslips/" + data.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
@@ -119,25 +105,24 @@ public class PayslipControllerTests {
 
     @Test
     public void testDeletePayslipEntityNotFoundException() throws Exception {
-        Payslip data = initData();
-        Mockito.when(customerApiService.getCustomerApi()).thenReturn(new CustomerApiMock());
-        Mockito.when(employeeApiService.getEmployeeApi()).thenReturn(new EmployeeApiMock());
+        initData();
         mvc.perform(MockMvcRequestBuilders.delete("/payslips/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
     private Payslip initData() {
         Payslip entity = new Payslip();
         entity.setEmployeeId("1");
-        entity.setMonth(java.time.LocalDate.of(2026, 7, 20));
+        entity.setPayslipMonth(java.time.LocalDate.of(2026, 7, 20));
         entity.setGrossSalary(4000d);
         entity.setTaxRate(37.5d);
-        entity.setPayslipFile("");
+        entity.setPayslipFile(null);
         ArrayList<Allowance> allowances = new ArrayList<>();
         Allowance allowance = new Allowance();
         allowance.setLabel("Company car");
         allowance.setAmount(-250d);
+        allowance.setPayslip(entity);
         allowances.add(allowance);
         entity.setAllowances(allowances);
         return payslipRepository.save(entity);

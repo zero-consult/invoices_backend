@@ -12,7 +12,7 @@ public class InvoicingMonth {
     private String id;
     @Enumerated(EnumType.STRING)
     private InvoiceDiscriminator invoiceDiscriminator;
-    private LocalDate month;
+    private LocalDate invoicingMonth;
 
     public String getId() {
         return id;
@@ -30,11 +30,11 @@ public class InvoicingMonth {
         this.invoiceDiscriminator = invoiceDiscriminator;
     }
 
-    public LocalDate getMonth() {
-        return month;
+    public LocalDate getInvoicingMonth() {
+        return invoicingMonth;
     }
 
-    public void setMonth(LocalDate month) {
-        this.month = month;
+    public void setInvoicingMonth(LocalDate month) {
+        this.invoicingMonth = month;
     }
 }

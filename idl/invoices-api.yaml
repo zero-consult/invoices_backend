@@ -126,42 +126,6 @@ paths:
             text/plain:
               schema:
                 type: string
-    put:
-      tags:
-        - payslip
-      summary: Update a payslip
-      operationId: updatePayslip
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Payslip'
-      responses:
-        '200':
-          description: Payslip updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Payslip'
-        '404':
-          description: 'Entity not found'
-          content:
-            text/plain:
-              schema:
-                type: string
-        '406':
-          description: 'Month of payslip is already closed'
-          content:
-            text/plain:
-              schema:
-                type: string
   /payslips/{id}/file:
     get:
       tags:

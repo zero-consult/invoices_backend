@@ -7,14 +7,14 @@ import java.util.List;
 
 @Entity
 public class Payslip {
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "payslip")
     private List<Allowance> allowances;
     private String employeeId;
     private Double grossSalary;
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private LocalDate month;
+    private LocalDate payslipMonth;
     private String payslipFile;
     private Double taxRate;
 
@@ -50,12 +50,12 @@ public class Payslip {
         this.id = id;
     }
 
-    public LocalDate getMonth() {
-        return month;
+    public LocalDate getPayslipMonth() {
+        return payslipMonth;
     }
 
-    public void setMonth(LocalDate month) {
-        this.month = month;
+    public void setPayslipMonth(LocalDate month) {
+        this.payslipMonth = month;
     }
 
     public String getPayslipFile() {

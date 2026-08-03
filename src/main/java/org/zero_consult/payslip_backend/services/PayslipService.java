@@ -39,14 +39,14 @@ public class PayslipService {
 
     public List<Payslip> getAllPayslips(LocalDate from, LocalDate until, Optional<String> employeeId) {
         if(employeeId.isEmpty()) {
-            return payslipRepository.findByMonthBetween(from, until);
+            return payslipRepository.findByPayslipMonthBetween(from, until);
         } else {
-            return payslipRepository.findByMonthBetweenAndEmployeeId(from, until, employeeId.get());
+            return payslipRepository.findByPayslipMonthBetweenAndEmployeeId(from, until, employeeId.get());
         }
     }
 
     public Payslip generatePayslip(Payslip entity) throws EntityNotFoundException, ServiceUnavailableException, InvalidGenerationException {
-        LocalDate monthFrom = entity.getMonth().withDayOfMonth(1);
+        LocalDate monthFrom = entity.getPayslipMonth().withDayOfMonth(1);
         LocalDate monthUntil = monthFrom.plusMonths(1).minusDays(1);
         List<TimesheetEntry> timesheetEntries;
         Employee employee;
@@ -82,7 +82,7 @@ public class PayslipService {
     public Payslip updatePayslip(String id, Payslip entity) throws EntityNotFoundException {
         Optional<Payslip> payslipById = payslipRepository.findById(id);
         if (payslipById.isEmpty()) {
-            throw new EntityNotFoundException("TimesheetEntry not found");
+            throw new EntityNotFoundException("Payslip not found");
         }
         Payslip payslip = payslipById.get();
         List<Allowance> allowanceClones = new ArrayList<>();
@@ -98,7 +98,7 @@ public class PayslipService {
         payslip.setAllowances(allowanceClones);
         payslip.setEmployeeId(entity.getEmployeeId());
         payslip.setGrossSalary(entity.getGrossSalary());
-        payslip.setMonth(entity.getMonth());
+        payslip.setPayslipMonth(entity.getPayslipMonth());
         payslip.setPayslipFile(entity.getPayslipFile());
         payslip.setTaxRate(entity.getTaxRate());
         return payslipRepository.save(payslip);

@@ -8,9 +8,9 @@ import java.util.Optional;
 public class AllowanceMapper {
     public static Allowance toEntity(org.zero_consult.idl.model.Allowance idl, Payslip payslip) {
         Allowance entity = new Allowance();
-        entity.setAmount(entity.getAmount());
+        entity.setAmount(idl.getAmount());
         idl.getId().ifPresent(entity::setId);
-        entity.setLabel(entity.getLabel());
+        entity.setLabel(idl.getLabel());
         entity.setPayslip(payslip);
         return entity;
     }

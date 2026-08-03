@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PayslipRepository extends JpaRepository<Payslip, String> {
-    List<Payslip> findByMonthBetween(LocalDate from, LocalDate until);
+    List<Payslip> findByPayslipMonthBetween(LocalDate from, LocalDate until);
 
-    List<Payslip> findByMonthBetweenAndEmployeeId(LocalDate from, LocalDate until, String employeeId);
+    List<Payslip> findByPayslipMonthBetweenAndEmployeeId(LocalDate from, LocalDate until, String employeeId);
 
     List<Payslip> findByPayslipFileIsNull();
 }

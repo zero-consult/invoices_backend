@@ -50,7 +50,7 @@ public class PayslipPdfGenerator {
     public void generatePayslipPdfs() throws ApiException {
         for (Payslip payslip : payslipService.getEmptyPayslipFiles()) {
             String payslipFile = "c:/invoices/" + payslip.getId() + ".pdf";
-            List<TimesheetEntry> timesheetEntries = timesheetApiService.getTimesheetApi().timesheetsList(payslip.getMonth(), payslip.getMonth().plusMonths(1).minusDays(1), payslip.getEmployeeId());
+            List<TimesheetEntry> timesheetEntries = timesheetApiService.getTimesheetApi().timesheetsList(payslip.getPayslipMonth(), payslip.getPayslipMonth().plusMonths(1).minusDays(1), payslip.getEmployeeId());
             Employee employee = employeeApiService.getEmployeeApi().getEmployee(payslip.getEmployeeId());
             generatePayslipPdf(payslip, payslipFile, employee, timesheetEntries);
             payslip.setPayslipFile(payslipFile);
@@ -75,8 +75,8 @@ public class PayslipPdfGenerator {
         allowance.setLabel("Meal vouchers");
         allowances.add(allowance);
         payslip.setAllowances(allowances);
-        payslip.setMonth(LocalDate.of(2026, 06, 01));
-        List<TimesheetEntry> timesheetEntries = createMonthTimeEntries(payslip.getMonth());
+        payslip.setPayslipMonth(LocalDate.of(2026, 06, 01));
+        List<TimesheetEntry> timesheetEntries = createMonthTimeEntries(payslip.getPayslipMonth());
         generatePayslipPdf(payslip, "c:/invoices/1.pdf", employee, timesheetEntries);
     }
 
@@ -126,7 +126,7 @@ public class PayslipPdfGenerator {
             double taxes = grossWage * payslip.getTaxRate() / 100;
             allowances.add(new Allowance("", "", payslip.getTaxRate() + "", formatCurrency(taxes), ""));
             for (org.zero_consult.payslip_backend.entities.Allowance payslipAllowance : payslip.getAllowances()) {
-                allowances.add(new Allowance("", "", "", formatCurrency(payslipAllowance.getAmount()), payslipAllowance.getLabel()));
+                allowances.add(new Allowance("", "", "", payslipAllowance.getAmount() != null ? formatCurrency(payslipAllowance.getAmount()) : "", payslipAllowance.getLabel()));
             }
             double totalNetWage = (grossWage - taxes) + payslip.getAllowances().stream().mapToDouble(value -> value.getAmount()).sum();
             allowances.add(new Allowance("", "", "", formatCurrency(totalNetWage), "TOTAL NET"));
@@ -137,7 +137,7 @@ public class PayslipPdfGenerator {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("EMPLOYEE_NAME", employee.getFirstName() + " " + employee.getLastName());
             parameters.put("EMPLOYEE_FUNCTION", employee.getFunctionTitle());
-            parameters.put("PERIOD", payslip.getMonth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " - " + payslip.getMonth().plusMonths(1).minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            parameters.put("PERIOD", payslip.getPayslipMonth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " - " + payslip.getPayslipMonth().plusMonths(1).minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             parameters.put("CREATION_DAY", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             parameters.put("CURRENCY", "Eur");
             parameters.put("LINES", dataSource);

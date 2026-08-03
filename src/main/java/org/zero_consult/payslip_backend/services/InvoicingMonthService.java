@@ -1,7 +1,6 @@
 package org.zero_consult.payslip_backend.services;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zero_consult.idl.client.ApiException;
 import org.zero_consult.idl.client.model.TimesheetEntry;
@@ -38,13 +37,13 @@ public class InvoicingMonthService {
     public LocalDate getCurrentPayslipMonth() {
         Optional<InvoicingMonth> byInvoiceDiscriminatorEqual = invoicingMonthRepository.findByInvoiceDiscriminatorEquals(InvoiceDiscriminator.PAYSLIP);
         if(byInvoiceDiscriminatorEqual.isPresent()) {
-            return byInvoiceDiscriminatorEqual.get().getMonth();
+            return byInvoiceDiscriminatorEqual.get().getInvoicingMonth();
         } else {
             InvoicingMonth initialInvoicingMonth = new InvoicingMonth();
-            initialInvoicingMonth.setMonth(LocalDate.now(mockableClock.clock()).minusMonths(1).withDayOfMonth(1));
+            initialInvoicingMonth.setInvoicingMonth(LocalDate.now(mockableClock.clock()).minusMonths(1).withDayOfMonth(1));
             initialInvoicingMonth.setInvoiceDiscriminator(InvoiceDiscriminator.PAYSLIP);
             invoicingMonthRepository.save(initialInvoicingMonth);
-            return initialInvoicingMonth.getMonth();
+            return initialInvoicingMonth.getInvoicingMonth();
         }
     }
 
@@ -73,7 +72,7 @@ public class InvoicingMonthService {
 
         payslipMonth = payslipMonth.plusMonths(1);
         Optional<InvoicingMonth> byInvoiceDiscriminatorEqual = invoicingMonthRepository.findByInvoiceDiscriminatorEquals(InvoiceDiscriminator.PAYSLIP);
-        byInvoiceDiscriminatorEqual.get().setMonth(payslipMonth);
+        byInvoiceDiscriminatorEqual.get().setInvoicingMonth(payslipMonth);
         invoicingMonthRepository.save(byInvoiceDiscriminatorEqual.get());
         return payslipMonth;
     }

@@ -71,15 +71,6 @@ public class PayslipController implements PayslipsApi {
     }
 
     @Override
-    public ResponseEntity<Payslip> updatePayslip(String id, Payslip payslip) {
-        try {
-            return ResponseEntity.ok(PayslipMapper.toIdl(payslipService.updatePayslip(id, PayslipMapper.toEntity(payslip))));
-        } catch (EntityNotFoundException e) {
-            throw new RestControllerException(HttpStatusCode.valueOf(404), e.getMessage());
-        }
-    }
-
-    @Override
     public ResponseEntity<Void> deletePayslip(String id) {
         payslipService.deletePayslip(id);
         return ResponseEntity.noContent().build();
