@@ -54,7 +54,7 @@ public class PayslipService {
             timesheetEntries = new ArrayList<>(timesheetApiService.getTimesheetApi().timesheetsList(monthFrom, monthUntil, entity.getEmployeeId()));
             employee = employeeApiService.getEmployeeApi().getEmployee(entity.getEmployeeId());
         } catch (ApiException e) {
-            throw new ServiceUnavailableException("Can't connect to timesheets backend", e);
+            throw new ServiceUnavailableException("Can't connect to backend", e);
         }
         List<TimesheetEntry> inProgressEntries = timesheetEntries.stream().filter((entry) -> entry.getStatus().equals(TimesheetStatus.IN_PROGRESS)).toList();
         if(!inProgressEntries.isEmpty()) {

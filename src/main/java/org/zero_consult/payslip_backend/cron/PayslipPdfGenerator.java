@@ -12,6 +12,7 @@ import org.zero_consult.idl.client.ApiException;
 import org.zero_consult.idl.client.model.Employee;
 import org.zero_consult.idl.client.model.TimesheetEntry;
 import org.zero_consult.idl.client.model.TimesheetType;
+import org.zero_consult.payslip_backend.configuration.CustomerProperties;
 import org.zero_consult.payslip_backend.entities.Payslip;
 import org.zero_consult.payslip_backend.exceptions.EntityNotFoundException;
 import org.zero_consult.payslip_backend.services.EmployeeApiService;
@@ -36,20 +37,22 @@ public class PayslipPdfGenerator {
     private final PayslipService payslipService;
     private final EmployeeApiService employeeApiService;
     private final TimesheetApiService timesheetApiService;
+    private final CustomerProperties customerProperties;
 
     private record Allowance(String days, String unit, String percent, String amount, String description) {
     }
 
-    public PayslipPdfGenerator(PayslipService payslipService, EmployeeApiService employeeApiService, TimesheetApiService timesheetApiService) {
+    public PayslipPdfGenerator(PayslipService payslipService, EmployeeApiService employeeApiService, TimesheetApiService timesheetApiService, CustomerProperties customerProperties) {
         this.payslipService = payslipService;
         this.employeeApiService = employeeApiService;
         this.timesheetApiService = timesheetApiService;
+        this.customerProperties = customerProperties;
     }
 
     @Scheduled(fixedRate = 5 * 60 * 1000)
     public void generatePayslipPdfs() throws ApiException {
         for (Payslip payslip : payslipService.getEmptyPayslipFiles()) {
-            String payslipFile = "c:/invoices/" + payslip.getId() + ".pdf";
+            String payslipFile = customerProperties.getInvoicesDir() + payslip.getId() + ".pdf";
             List<TimesheetEntry> timesheetEntries = timesheetApiService.getTimesheetApi().timesheetsList(payslip.getPayslipMonth(), payslip.getPayslipMonth().plusMonths(1).minusDays(1), payslip.getEmployeeId());
             Employee employee = employeeApiService.getEmployeeApi().getEmployee(payslip.getEmployeeId());
             generatePayslipPdf(payslip, payslipFile, employee, timesheetEntries);

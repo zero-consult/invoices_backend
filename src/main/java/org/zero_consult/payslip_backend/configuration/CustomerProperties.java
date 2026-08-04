@@ -6,8 +6,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "zero-consult")
 public class CustomerProperties {
+    private String invoicesDir;
     private String peopleBackendHost;
     private String timesheetBackendHost;
+
+    public String getInvoicesDir() {
+        return invoicesDir;
+    }
+
+    public void setInvoicesDir(String invoicesDir) {
+        this.invoicesDir = invoicesDir;
+    }
 
     public String getPeopleBackendHost() {
         return peopleBackendHost;
