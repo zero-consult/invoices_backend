@@ -15,8 +15,8 @@ import java.time.format.DateTimeFormatter;
 @CrossOrigin(origins = {
         "http://localhost:5174",
         "http://localhost:5175",
-        "http://timesheets.localhost",
-        "http://timesheets.dev.localhost",
+        "http://timesheet.localhost",
+        "http://timesheet.dev.localhost",
         "http://invoices.localhost",
         "http://invoices.dev.localhost",
 })
