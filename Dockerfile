@@ -1,5 +1,6 @@
 FROM bellsoft/liberica-runtime-container:jdk-17-glibc
-RUN apk add --no-cache fontconfig freetype
+RUN apk add --no-cache msttcorefonts-installer fontconfig freetype
+RUN update-ms-fonts
 RUN mkdir /var/invoices
 VOLUME /tmp
 ARG JAR_FILE
