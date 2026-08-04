@@ -35,9 +35,9 @@ public class InvoicingMonthController implements InvoicingMonthApi {
         try {
             return ResponseEntity.ok(MONTH_FORMAT.format(invoicingMonthService.closeCurrentPayslipMonth()));
         } catch (ServiceUnavailableException e) {
-            throw new RestControllerException(HttpStatusCode.valueOf(500), e.getMessage());
+            throw new RestControllerException(HttpStatusCode.valueOf(500), e.getMessage(), e);
         } catch (CloseMonthConstraintException e) {
-            throw new RestControllerException(HttpStatusCode.valueOf(406), e.getMessage());
+            throw new RestControllerException(HttpStatusCode.valueOf(406), e.getMessage(), e);
         }
     }
 

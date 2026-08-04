@@ -43,11 +43,11 @@ public class PayslipController implements PayslipsApi {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(PayslipMapper.toIdl(payslipService.generatePayslip(PayslipMapper.toEntity(payslip))));
         } catch (EntityNotFoundException e) {
-            throw new RestControllerException(HttpStatusCode.valueOf(404), e.getMessage());
+            throw new RestControllerException(HttpStatusCode.valueOf(404), e.getMessage(), e);
         } catch (InvalidGenerationException e) {
-            throw new RestControllerException(HttpStatusCode.valueOf(406), e.getMessage());
+            throw new RestControllerException(HttpStatusCode.valueOf(406), e.getMessage(), e);
         } catch (ServiceUnavailableException e) {
-            throw new RestControllerException(HttpStatusCode.valueOf(503), e.getMessage());
+            throw new RestControllerException(HttpStatusCode.valueOf(503), e.getMessage(), e);
         }
     }
 
@@ -66,7 +66,7 @@ public class PayslipController implements PayslipsApi {
         try {
             return ResponseEntity.ok(PayslipMapper.toIdl(payslipService.getPayslip(id)));
         } catch (EntityNotFoundException e) {
-            throw new RestControllerException(HttpStatusCode.valueOf(404), e.getMessage());
+            throw new RestControllerException(HttpStatusCode.valueOf(404), e.getMessage(), e);
         }
     }
 
@@ -90,7 +90,7 @@ public class PayslipController implements PayslipsApi {
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(responseBody);
         } catch (EntityNotFoundException e) {
-            throw new RestControllerException(HttpStatusCode.valueOf(404), e.getMessage());
+            throw new RestControllerException(HttpStatusCode.valueOf(404), e.getMessage(), e);
         }
 
 
