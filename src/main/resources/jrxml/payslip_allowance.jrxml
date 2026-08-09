@@ -86,7 +86,7 @@
 				<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				<box topPadding="5" leftPadding="5"/>
 			</element>
-			<element kind="textField" uuid="d48c1fcf-854e-46b5-87dd-6a2d7b33ba3c" x="405" y="0" width="189" height="1" forecolor="#FFFFFF" textAdjust="StretchHeight">
+			<element kind="textField" uuid="d48c1fcf-854e-46b5-87dd-6a2d7b33ba3c" x="405" y="0" width="189" height="1" forecolor="#FFFFFF" markup="html" textAdjust="StretchHeight">
 				<expression><![CDATA[$F{DESCRIPTION}]]></expression>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<property name="com.jaspersoft.studio.unit.x" value="px"/>

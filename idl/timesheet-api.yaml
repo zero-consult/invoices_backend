@@ -28,6 +28,11 @@ paths:
           required: false
           schema:
             type: string
+        - in: query
+          name: customerId
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A list of timesheet entries
