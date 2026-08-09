@@ -85,7 +85,7 @@ public class InvoiceController implements InvoiceApi {
                 }
             };
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=payslip.pdf")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice.pdf")
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(responseBody);
         } catch (EntityNotFoundException e) {
