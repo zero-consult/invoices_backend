@@ -45,7 +45,7 @@ public class InvoicePdfGenerator {
         this.timesheetApiService = timesheetApiService;
     }
 
-    @Scheduled(fixedRate = 5 * 60 * 1000)
+    @Scheduled(fixedRate = 60 * 1000)
     public void generateInvoicePdfs() throws ApiException, ServiceUnavailableException, JRException, IOException {
         for (Invoice invoice : invoiceService.getEmptyInvoiceFiles()) {
             String payslipFile = customProperties.getInvoicesDir() + "/invoices/" + invoice.getId() + ".pdf";

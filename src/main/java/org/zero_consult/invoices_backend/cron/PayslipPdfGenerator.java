@@ -49,7 +49,7 @@ public class PayslipPdfGenerator {
         this.customProperties = customProperties;
     }
 
-    @Scheduled(fixedRate = 5 * 60 * 1000)
+    @Scheduled(fixedRate = 60 * 1000)
     public void generatePayslipPdfs() throws ApiException {
         for (Payslip payslip : payslipService.getEmptyPayslipFiles()) {
             String payslipFile = customProperties.getInvoicesDir() + "/payslips/" + payslip.getId() + ".pdf";
