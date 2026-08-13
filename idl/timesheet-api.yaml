@@ -154,6 +154,11 @@ paths:
               schema:
                 type: string
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     TimesheetEntry:
       type: object
@@ -201,3 +206,5 @@ components:
         - Work
         - Holiday
         - Sickness
+security:
+  - bearerAuth: [ ]

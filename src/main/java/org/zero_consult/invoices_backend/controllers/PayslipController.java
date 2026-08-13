@@ -2,6 +2,7 @@ package org.zero_consult.invoices_backend.controllers;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = {
+        "http://localhost",
         "http://localhost:5174",
         "http://localhost:5175",
         "http://timesheet.localhost",
@@ -38,6 +40,7 @@ public class PayslipController implements PayslipsApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Payslip> generatePayslip(Payslip payslip) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(PayslipMapper.toIdl(payslipService.generatePayslip(PayslipMapper.toEntity(payslip))));
@@ -51,6 +54,7 @@ public class PayslipController implements PayslipsApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<List<Payslip>> payslipsList(LocalDate from, LocalDate until, Optional<String> employeeId) {
         return ResponseEntity.ok(
                 payslipService
@@ -61,6 +65,7 @@ public class PayslipController implements PayslipsApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Payslip> getPayslip(String id) {
         try {
             return ResponseEntity.ok(PayslipMapper.toIdl(payslipService.getPayslip(id)));
@@ -70,12 +75,14 @@ public class PayslipController implements PayslipsApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletePayslip(String id) {
         payslipService.deletePayslip(id);
         return ResponseEntity.noContent().build();
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<StreamingResponseBody> getPayslipFile(String id) {
         try {
             org.zero_consult.invoices_backend.entities.Payslip payslip = payslipService.getPayslip(id);

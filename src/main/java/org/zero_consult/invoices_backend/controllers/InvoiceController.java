@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = {
+        "http://localhost",
         "http://localhost:5174",
         "http://localhost:5175",
         "http://timesheet.localhost",
@@ -39,6 +41,7 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteInvoice(String id) {
         try {
             invoiceService.deleteInvoice(id);
@@ -51,6 +54,7 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Invoice> generateInvoice(Invoice invoice) {
         try {
             return ResponseEntity.ok(InvoiceMapper.toIdl(invoiceService.generateInvoice(InvoiceMapper.toEntity(invoice))));
@@ -62,6 +66,7 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Invoice> getInvoice(String id) {
         try {
             return ResponseEntity.ok(InvoiceMapper.toIdl(invoiceService.getInvoice(id)));
@@ -71,11 +76,13 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Invoice>> invoiceList(LocalDate from, LocalDate until, Optional<String> customerId) {
         return ResponseEntity.ok(invoiceService.getAllInvoices(from, until, customerId).stream().map(InvoiceMapper::toIdl).toList());
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<StreamingResponseBody> getInvoiceFile(String id) {
         try {
             org.zero_consult.invoices_backend.entities.Invoice invoice = invoiceService.getInvoice(id);
@@ -94,6 +101,7 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Invoice> editInvoice(String id, Invoice invoice) {
         try {
             return ResponseEntity.ok(InvoiceMapper.toIdl(invoiceService.updateInvoice(id, InvoiceMapper.toEntity(invoice))));
@@ -105,6 +113,7 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<String>> getCustomersWithConceptInvoices() {
         return ResponseEntity.ok(invoiceService.getCustomersWithConceptInvoices());
     }

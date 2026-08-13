@@ -2,6 +2,7 @@ package org.zero_consult.invoices_backend.controllers;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.zero_consult.idl.api.InvoicingMonthApi;
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @CrossOrigin(origins = {
+        "http://localhost",
         "http://localhost:5174",
         "http://localhost:5175",
         "http://timesheet.localhost",
@@ -36,6 +38,7 @@ public class InvoicingMonthController implements InvoicingMonthApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> getInvoiceDateOfCustomer(String id, Optional<String> invoiceId) {
         try {
             return ResponseEntity.ok(invoiceService.getInvoiceDate(id, invoiceId).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -45,6 +48,7 @@ public class InvoicingMonthController implements InvoicingMonthApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> closeCurrentPayslipMonth() {
         try {
             return ResponseEntity.ok(MONTH_FORMAT.format(invoicingMonthService.closeCurrentPayslipMonth()));
@@ -56,6 +60,7 @@ public class InvoicingMonthController implements InvoicingMonthApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<String> getCurrentPayslipMonth() {
         return ResponseEntity.ok(MONTH_FORMAT.format(invoicingMonthService.getCurrentPayslipMonth()));
     }

@@ -9,16 +9,23 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.convention.TestBean;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.zero_consult.invoices_backend.InvoicesBackendApplication;
+import org.zero_consult.invoices_backend.configuration.TestConfig;
 import org.zero_consult.invoices_backend.entities.Allowance;
 import org.zero_consult.invoices_backend.entities.Payslip;
 import org.zero_consult.invoices_backend.repositories.PayslipRepository;
+import org.zero_consult.invoices_backend.security.JwtAuthorizationFilter;
+import org.zero_consult.invoices_backend.security.JwtUtil;
+import org.zero_consult.invoices_backend.security.MockJwtAuthorizationFilter;
 import org.zero_consult.invoices_backend.services.*;
 
 import java.io.File;
@@ -27,6 +34,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 
+@Import({TestConfig.class})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
@@ -55,6 +63,8 @@ public class PayslipControllerTests {
         this.mvc = mvc;
         this.payslipRepository = payslipRepository;
     }
+
+
 
     @BeforeEach
     public void init() {
