@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = {
         "http://localhost",
+        "http://dev.localhost",
         "http://localhost:5174",
         "http://localhost:5175",
         "http://timesheet.localhost",
