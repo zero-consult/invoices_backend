@@ -24,7 +24,7 @@ public class EmployeeApiService {
     public EmployeeApiService(CustomProperties customProperties, JwtUtil jwtUtil) {
         String jwtToken = jwtUtil.resolveToken(RequestHelper.getCurrentHttpRequest());
         ApiClient apiClient = Configuration.getDefaultApiClient();
-        apiClient.setAccessToken(jwtToken);
+        apiClient.setBearerToken(jwtToken);
         this.employeeApi = new EmployeeApi(apiClient);
         this.employeeApi.setCustomBaseUrl(customProperties.getPeopleBackendHost());
     }

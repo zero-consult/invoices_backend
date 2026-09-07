@@ -20,7 +20,7 @@ public class TimesheetApiService {
     public TimesheetApiService(CustomProperties customProperties, JwtUtil jwtUtil) {
         String jwtToken = jwtUtil.resolveToken(RequestHelper.getCurrentHttpRequest());
         ApiClient apiClient = Configuration.getDefaultApiClient();
-        apiClient.setAccessToken(jwtToken);
+        apiClient.setBearerToken(jwtToken);
         this.timesheetsApi = new TimesheetApi();
         this.timesheetsApi.setCustomBaseUrl(customProperties.getTimesheetBackendHost());
     }

@@ -20,7 +20,7 @@ public class CustomerApiService {
     public CustomerApiService(CustomProperties customProperties, JwtUtil jwtUtil) {
         String jwtToken = jwtUtil.resolveToken(RequestHelper.getCurrentHttpRequest());
         ApiClient apiClient = Configuration.getDefaultApiClient();
-        apiClient.setAccessToken(jwtToken);
+        apiClient.setBearerToken(jwtToken);
         this.customerApi = new CustomerApi(apiClient);
         this.customerApi.setCustomBaseUrl(customProperties.getPeopleBackendHost());
     }
